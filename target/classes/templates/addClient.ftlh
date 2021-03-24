@@ -4,35 +4,35 @@
         <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Фамилия Имя</label>
             <div class="col-sm-3 mb-2">
-                <input type="text" class="form-control" placeholder="Петров" name="surname"/>
+                <input type="text" class="form-control" placeholder="Иванов" name="surname"/>
             </div>
 
             <div class="col-sm-3 mb-2">
-                <input type="text" class="form-control" placeholder="Петр" name="name"/>
+                <input type="text" class="form-control" placeholder="Иван" name="name"/>
             </div>
         </div>
 
         <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Отчество</label>
             <div class="col-sm-6 ">
-                <input type="text" class="form-control" placeholder="Петрович" name="patronymic"/>
+                <input type="text" class="form-control" placeholder="Иванович" name="patronymic"/>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-6">
                 <input type="email" class="form-control" placeholder="example@gmail.com" name="email"/>
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Номер телефона</label>
             <div class="col-sm-6">
                 <input type="text" class="form-control" placeholder="89876543210" name="phone"/>
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Номер паспорта</label>
             <div class="col-sm-6">
                 <input type="text" class="form-control" placeholder="1234 567890" name="passportId"/>

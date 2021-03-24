@@ -1,14 +1,19 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "client")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "bank_id")
+    private Bank bank;
 
     @Column(name = "name")
     private String name;
@@ -27,6 +32,7 @@ public class Client {
 
     @Column(name = "passportId")
     private String passportId;
+
 
     public Client() {
     }
@@ -56,6 +62,21 @@ public class Client {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
 
     public String getEmail() {
         return email;
@@ -81,6 +102,14 @@ public class Client {
         this.passportId = passportId;
     }
 
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -91,5 +120,20 @@ public class Client {
                 ", phone='" + phone + '\'' +
                 ", passportId='" + passportId + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return id.equals(client.id) && name.equals(client.name) && surname.equals(client.surname) &&
+                patronymic.equals(client.patronymic) && Objects.equals(email, client.email) &&
+                Objects.equals(phone, client.phone) && passportId.equals(client.passportId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, patronymic, email, phone, passportId);
     }
 }
