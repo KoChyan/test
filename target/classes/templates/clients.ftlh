@@ -41,38 +41,43 @@
             </div>
 
             <button class="btn btn-primary my-4">Найти</button>
-    </div>
+        </div>
     </form>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        <#list clients as client>
-            <div class="col">
-                <div class="card text-dark bg-light my-4" style="max-width: 48rem">
-                    <h5 class="card-title m-3">
-                        <div class="row">
-                            <div class="col-sm-4">ФИО</div>
-                            <div class="col-sm">${client.getSurname()} ${client.getName()} ${client.getPatronymic()}</div>
+        <#if clients??>
+            <#list clients as client>
+                <div class="col">
+                    <div class="card text-dark bg-light my-4" style="max-width: 48rem">
+                        <h5 class="card-title m-3">
+                            <div class="row">
+                                <div class="col-sm-4">ФИО</div>
+                                <div class="col-sm">
+                                    ${client.getSurname()?ifExists} ${client.getName()?ifExists} ${client.getPatronymic()?ifExists}
+                                </div>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <p class="card-text m-2">
+                            <div class="row">
+                                <div class="col-sm-4">Email</div>
+                                <div class="col-sm">${client.getEmail()?ifExists}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">Номер телефона</div>
+                                <div class="col-sm">${client.getPhone()?ifExists}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">Номер паспорта</div>
+                                <div class="col-sm">${client.getPassportId()?ifExists}</div>
+                            </div>
+                            </p>
                         </div>
-                    </h5>
-                    <div class="card-body">
-                        <p class="card-text m-2">
-                        <div class="row">
-                            <div class="col-sm-4">Email</div>
-                            <div class="col-sm">${client.getEmail()}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">Номер телефона</div>
-                            <div class="col-sm">${client.getPhone()}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">Номер паспорта</div>
-                            <div class="col-sm">${client.getPassportId()}</div>
-                        </div>
-                        </p>
                     </div>
                 </div>
-            </div>
-        </#list>
+            </#list>
+        <#else>
+        </#if>
 
     </div>
 </@c.page>

@@ -21,7 +21,7 @@ public class ClientController {
     @GetMapping()
     public String clientList(
             Model model,
-            @RequestParam(name = "surname", required = false, defaultValue = " ") String surname,
+            @RequestParam(name = "surname", required = false, defaultValue = "") String surname,
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
             @RequestParam(name = "patronymic", required = false, defaultValue = "") String patronymic,
             @RequestParam(name = "email", required = false, defaultValue = "") String email,

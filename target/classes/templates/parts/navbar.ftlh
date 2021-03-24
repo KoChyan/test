@@ -27,7 +27,7 @@
                         <li><a class="dropdown-item" href="/credit">Список кредитов</a></li>
                         <li><a class="dropdown-item" href="/credit/add">Добавить кредит</a></li>
                     </ul>
-                    
+
                 </li>
 
             </ul>

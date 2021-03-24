@@ -2,6 +2,7 @@ package org.example.haulmont.domain;
 
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -16,16 +17,16 @@ public class Credit {
     private Bank bank;
 
     @Column(name = "limit")
-    private Long limit;
+    private BigDecimal limit;
 
     @Column(name = "interestRate")
-    private Double interestRate;
+    private BigDecimal interestRate;
 
 
     public Credit() {
     }
 
-    public Credit(Long limit, Double interestRate) {
+    public Credit(BigDecimal interestRate, BigDecimal limit) {
         this.limit = limit;
         this.interestRate = interestRate;
     }
@@ -38,19 +39,19 @@ public class Credit {
         this.id = id;
     }
 
-    public Long getLimit() {
+    public BigDecimal getLimit() {
         return limit;
     }
 
-    public void setLimit(Long limit) {
+    public void setLimit(BigDecimal limit) {
         this.limit = limit;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 

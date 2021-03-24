@@ -46,7 +46,6 @@ public class ClientService {
                 result = clientRepo.findAllByName(name.trim());
 
                 //если result не null
-
             } else {
 
                 //то пересекаем его с множеством, которое получили при поиске по полю name
