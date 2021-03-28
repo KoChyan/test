@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as c>
+<#import "../parts/common.ftlh" as c>
 <@c.page>
     <form method="get" action="/credit">
         <p>
@@ -35,11 +35,15 @@
                         <p class="card-text m-2">
                         <div class="row my-2">
                             <div class="col-sm-4">Процентная ставка</div>
-                            <div class="col-sm">${credit.getInterestRate()?ifExists}</div>
+                            <div class="col-sm">
+                                ${credit.getInterestRate()?ifExists}
+                            </div>
                         </div>
                         <div class="row my-2">
                             <div class="col-sm-4">Лимит по кредиту</div>
-                            <div class="col-sm">${credit.getLimit()?ifExists}</div>
+                            <div class="col-sm">
+                                ${credit.getLimit()?ifExists}
+                            </div>
                         </div>
                         </p>
                     </div>

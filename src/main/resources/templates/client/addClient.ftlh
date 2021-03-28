@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as c>
+<#import "../parts/common.ftlh" as c>
 <@c.page>
     <form method="post" action="/client/add">
         <div class="form-group row my-3">

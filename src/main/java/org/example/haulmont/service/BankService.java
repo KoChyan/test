@@ -6,8 +6,12 @@ import org.example.haulmont.domain.Credit;
 import org.example.haulmont.repository.BankRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional
 public class BankService {
 
     @Autowired
@@ -15,24 +19,31 @@ public class BankService {
 
 
     public void addClient(Client client) {
-        Bank bank = getBankFromDb();
+        Bank bank = getBank();
+
         bank.addClient(client);
 
         bankRepo.save(bank);
     }
 
     public void addCredit(Credit credit) {
-        Bank bank = getBankFromDb();
+        Bank bank = getBank();
+
         bank.addCredit(credit);
 
         bankRepo.save(bank);
     }
 
-    public Bank getBankFromDb() {
-        //если банк не создан
-        if (bankRepo.findAll().size() == 0)
+    public Bank getBank() {
+        if (bankRepo.findAll().size() < 1){
             bankRepo.save(new Bank());
+        }
 
-        return bankRepo.findAll().get(0);
+
+       return bankRepo.findAll().get(0);
+    }
+
+    public List<Bank> findAll(){
+        return bankRepo.findAll();
     }
 }

@@ -1,6 +1,7 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,11 +12,10 @@ public class PaymentSchedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToMany(mappedBy = "paymentSchedule", fetch = FetchType.LAZY)
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "paymentSchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payments = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "creditOffer_id")
+    @OneToOne(mappedBy = "paymentSchedule")
     private CreditOffer creditOffer;
 
     public PaymentSchedule() {
@@ -38,16 +38,16 @@ public class PaymentSchedule {
     }
 
     public void setPayments(List<Payment> payments) {
-        if(payments != null)
-        this.payments = payments;
+        if (payments != null)
+            this.payments = payments;
     }
 
-    public void setCreditOffer(CreditOffer creditOffer){
+    public void setCreditOffer(CreditOffer creditOffer) {
         this.creditOffer = creditOffer;
     }
 
-    public void addPayment(Payment payment){
-        if(payment != null){
+    public void addPayment(Payment payment) {
+        if (payment != null) {
             this.payments.add(payment);
             payment.setPaymentSchedule(this);
         }

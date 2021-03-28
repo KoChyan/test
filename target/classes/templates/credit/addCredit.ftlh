@@ -1,0 +1,22 @@
+<#import "../parts/common.ftlh" as c>
+<@c.page>
+    <form method="post" action="/credit/add">
+        <div class="form-group row my-3">
+            <label class="col-sm-3 col-form-label">Процентная ставка</label>
+            <div class="col-sm-6 mb-2">
+                <input type="number" step="0.01" min="0" max="100" class="form-control" placeholder="11.3"
+                       name="interestRate"/>
+            </div>
+        </div>
+
+        <div class="form-group row my-3">
+            <label class="col-sm-3 col-form-label">Лимит по кредиту</label>
+            <div class="col-sm-6 ">
+                <input type="number" step="1" min="1000" max="99999999" class="form-control" placeholder="10000"
+                       name="limit"/>
+            </div>
+        </div>
+
+        <button type=submit" class="btn btn-primary my-5">Добавить</button>
+    </form>
+</@c.page>

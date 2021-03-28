@@ -1,7 +1,7 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,22 +21,23 @@ public class CreditOffer {
     private Credit credit;
 
     //сумма кредита
-    @Column(name = "creditAmount")
-    private Long creditAmount;
+    @Column(name = "credit_amount")
+    private BigDecimal creditAmount;
 
     //график платежей
-    @OneToMany(mappedBy = "creditOffer", fetch = FetchType.LAZY)
-    private List<PaymentSchedule> paymentSchedules = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_schedule_id")
+    private PaymentSchedule paymentSchedule;
 
 
     public CreditOffer() {
     }
 
-    public CreditOffer(Client client, Credit credit, Long creditAmount, List<PaymentSchedule> paymentSchedules) {
+    public CreditOffer(Client client, Credit credit, BigDecimal creditAmount, PaymentSchedule paymentSchedules) {
         this.client = client;
         this.credit = credit;
         this.creditAmount = creditAmount;
-        this.paymentSchedules = paymentSchedules;
+        this.paymentSchedule = paymentSchedules;
     }
 
     public UUID getId() {
@@ -63,28 +64,20 @@ public class CreditOffer {
         this.credit = credit;
     }
 
-    public Long getCreditAmount() {
+    public BigDecimal getCreditAmount() {
         return creditAmount;
     }
 
-    public void setCreditAmount(Long creditAmount) {
+    public void setCreditAmount(BigDecimal creditAmount) {
         this.creditAmount = creditAmount;
     }
 
-    public List<PaymentSchedule> getPaymentSchedules() {
-        return paymentSchedules;
+    public PaymentSchedule getPaymentSchedule() {
+        return paymentSchedule;
     }
 
-    public void setPaymentSchedules(List<PaymentSchedule> paymentSchedules) {
-        if (paymentSchedules != null)
-            this.paymentSchedules = paymentSchedules;
-    }
-
-    public void addPaymentSchedule(PaymentSchedule paymentSchedule) {
-        if (paymentSchedule != null) {
-            this.paymentSchedules.add(paymentSchedule);
-            paymentSchedule.setCreditOffer(this);
-        }
+    public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
+        this.paymentSchedule = paymentSchedule;
     }
 
     @Override
@@ -93,7 +86,7 @@ public class CreditOffer {
                 "client=" + client +
                 ", credit=" + credit +
                 ", creditAmount=" + creditAmount +
-                ", paymentSchedules=" + paymentSchedules +
+                ", paymentSchedule=" + paymentSchedule +
                 '}';
     }
 }

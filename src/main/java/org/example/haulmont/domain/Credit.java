@@ -3,6 +3,7 @@ package org.example.haulmont.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -12,16 +13,15 @@ public class Credit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
     @Column(name = "limit")
     private BigDecimal limit;
 
-    @Column(name = "interestRate")
+    @Column(name = "interest_rate")
     private BigDecimal interestRate;
-
 
     public Credit() {
     }
@@ -69,5 +69,18 @@ public class Credit {
                 "limit=" + limit +
                 ", interestRate=" + interestRate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Credit credit = (Credit) o;
+        return id.equals(credit.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

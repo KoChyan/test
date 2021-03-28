@@ -1,14 +1,15 @@
 package org.example.haulmont.service;
 
+import org.example.haulmont.dao.CreditDAO;
+import org.example.haulmont.domain.Bank;
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.repository.CreditRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.math.RoundingMode;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CreditService {
@@ -19,46 +20,42 @@ public class CreditService {
     @Autowired
     private BankService bankService;
 
+    @Autowired
+    private CreditDAO creditDAO;
+
+
     public void addCredit(Credit credit) {
+
+        credit.setLimit(
+                new BigDecimal(credit
+                        .getLimit().setScale(12, RoundingMode.HALF_UP)
+                        .toString())
+        );
+
+        credit.setInterestRate(
+                new BigDecimal(credit
+                        .getInterestRate().setScale(6, RoundingMode.HALF_UP)
+                        .toString())
+        );
+
         creditRepo.save(credit);
+
         bankService.addCredit(credit);
     }
-
 
     public List<Credit> findAll() {
         return creditRepo.findAll();
     }
 
-    public List<Credit> findByFilter(BigDecimal interestRateTo, BigDecimal limitFrom) {
-        Set<Credit> result = null;
+    public List<Credit> findByFilter(BigDecimal limitFrom, BigDecimal interestRateBefore) {
+       return creditDAO.findByFilter(limitFrom, interestRateBefore);
+    }
 
-        //если параметр interestRate не null, то ищем совпадения в БД
-        //где interestRate < полученной из фильтра
-        if (interestRateTo != null) {
-            result = creditRepo.findAllByInterestRateBefore(interestRateTo);
-        }
+    public List<Credit> findAllByLimitFrom(BigDecimal sum) {
+        return creditRepo.findAllByLimitGreaterThanEqual(sum);
+    }
 
-        //если полученное значение limitFrom не null
-        if (limitFrom != null) {
-
-            //если result null (это первое переданное поле), то ищем в бд
-            //где limit > полученному из фильтра
-            if(result == null){
-                result = creditRepo.findAllByLimitAfter(limitFrom);
-
-                //если result не null
-            }else{
-
-                //то пересекаем его с множеством, которое получили при поиске по лимиту
-                result.retainAll(creditRepo.findAllByLimitAfter(limitFrom));
-            }
-        }
-
-        //если ни одно поле фильтра не было передано, то выводим все кредиты
-        if(result == null)
-            return  creditRepo.findAll();
-
-        //если result не null, то возвращаем кредитов листом
-        return  new ArrayList<>(result);
+    public boolean ifExists(Credit credit){
+        return creditDAO.ifExists(credit, bankService.getBank());
     }
 }

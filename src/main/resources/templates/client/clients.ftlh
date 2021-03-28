@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as c>
+<#import "../parts/common.ftlh" as c>
 <@c.page>
     <form method="get" action="/client">
         <p>
@@ -45,7 +45,6 @@
     </form>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        <#if clients??>
             <#list clients as client>
                 <div class="col">
                     <div class="card text-dark bg-light my-4" style="max-width: 48rem">
@@ -76,8 +75,5 @@
                     </div>
                 </div>
             </#list>
-        <#else>
-        </#if>
-
     </div>
 </@c.page>

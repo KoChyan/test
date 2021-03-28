@@ -17,19 +17,19 @@ public class Payment {
     private Date date;
 
     //сумма платежа
-    @Column(name = "amountOfPayment")
+    @Column(name = "amount_of_payment")
     private BigDecimal amountOfPayment;
 
     //сумма гашения тела кредита
-    @Column(name = "principalRepaymentAmount")
+    @Column(name = "principal_repayment_amount")
     private BigDecimal principalRepaymentAmount;
 
     //сумма гашения процентов
-    @Column(name = "interestRepaymentAmount")
+    @Column(name = "interest_repayment_amount")
     private BigDecimal interestRepaymentAmount;
 
-    @ManyToOne
-    @JoinColumn(name = "paymentSchedule_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_schedule_id")
     private PaymentSchedule paymentSchedule;
 
 

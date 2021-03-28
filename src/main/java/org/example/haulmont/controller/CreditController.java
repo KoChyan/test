@@ -1,5 +1,6 @@
 package org.example.haulmont.controller;
 
+
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,24 @@ public class CreditController {
     @Autowired
     private CreditService creditService;
 
-
     @GetMapping()
     public String creditList(
             Model model,
             @RequestParam(name = "interestRate", required = false, defaultValue = "") BigDecimal interestRate,
             @RequestParam(name = "limit", required = false, defaultValue = "") BigDecimal limit
-            ){
-
-        model.addAttribute("credits", creditService.findByFilter(interestRate, limit));
-        return "credits";
+    ) {
+        model.addAttribute("credits", creditService.findByFilter(limit, interestRate));
+        return "credit/credits";
     }
 
     @GetMapping("/add")
     public String fillCreditData() {
-        return "addCredit";
+        return "credit/addCredit";
     }
 
     @PostMapping("/add")
-    public String addCredit(Credit credit){
+    public String addCredit(Credit credit) {
+
         creditService.addCredit(credit);
         return "redirect:/credit";
     }

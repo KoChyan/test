@@ -1,7 +1,6 @@
 package org.example.haulmont.controller;
 
 import org.example.haulmont.domain.Client;
-import org.example.haulmont.service.BankService;
 import org.example.haulmont.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,13 +27,14 @@ public class ClientController {
             @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
             @RequestParam(name = "passportId", required = false, defaultValue = "") String passportId
     ) {
-            model.addAttribute("clients", clientService.findByFilter(surname, name, patronymic, email, phone, passportId));
-            return "clients";
+        Iterable<Client> clients = clientService.findByFilter(surname, name, patronymic, email, phone, passportId);
+        model.addAttribute("clients", clients);
+        return "client/clients";
     }
 
     @GetMapping("/add")
     public String fillClientData() {
-        return "addClient";
+        return "client/addClient";
     }
 
     @PostMapping("/add")

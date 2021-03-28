@@ -1,8 +1,8 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -13,23 +13,18 @@ public class Bank {
     private UUID id;
 
     @Column(name = "name")
-    private static String name = "Money house";
+    private String name;
 
     //список клиентов банка
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    private List<Client> clients = new ArrayList<>();
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Client> clients = new HashSet<>();
 
     //список кредитов банка
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    private List<Credit> credits = new ArrayList<>();
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Credit> credits = new HashSet<>();
 
 
     public Bank() {
-    }
-
-    public Bank(List<Client> clients, List<Credit> credits) {
-        this.clients = clients;
-        this.credits = credits;
     }
 
     public UUID getId() {
@@ -40,11 +35,11 @@ public class Bank {
         this.id = id;
     }
 
-    public List<Client> getClients() {
+    public Set<Client> getClients() {
         return clients;
     }
 
-    public void setClients(List<Client> clients) {
+    public void setClients(Set<Client> clients) {
         if (clients != null)
             this.clients = clients;
     }
@@ -56,11 +51,11 @@ public class Bank {
         }
     }
 
-    public List<Credit> getCredits() {
+    public Set<Credit> getCredits() {
         return credits;
     }
 
-    public void setCredits(List<Credit> credits) {
+    public void setCredits(Set<Credit> credits) {
         if (credits != null)
             this.credits = credits;
     }
@@ -72,12 +67,12 @@ public class Bank {
         }
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
-        Bank.name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

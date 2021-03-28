@@ -11,8 +11,8 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "bank_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id")
     private Bank bank;
 
     @Column(name = "name")
@@ -30,20 +30,20 @@ public class Client {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "passportId")
-    private String passportId;
+    @Column(name = "passport_number")
+    private String passportNumber;
 
 
     public Client() {
     }
 
-    public Client(String name, String surname, String patronymic, String email, String phone, String passportId) {
+    public Client(String name, String surname, String patronymic, String email, String phone, String passportNumber) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
         this.email = email;
         this.phone = phone;
-        this.passportId = passportId;
+        this.passportNumber = passportNumber;
     }
 
     public UUID getId() {
@@ -95,11 +95,11 @@ public class Client {
     }
 
     public String getPassportId() {
-        return passportId;
+        return passportNumber;
     }
 
-    public void setPassportId(String passportId) {
-        this.passportId = passportId;
+    public void setPassportId(String passportNumber) {
+        this.passportNumber = passportNumber;
     }
 
     public Bank getBank() {
@@ -118,22 +118,8 @@ public class Client {
                 ", patronymic='" + patronymic + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", passportId='" + passportId + '\'' +
+                ", passportId='" + passportNumber + '\'' +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return id.equals(client.id) && name.equals(client.name) && surname.equals(client.surname) &&
-                patronymic.equals(client.patronymic) && Objects.equals(email, client.email) &&
-                Objects.equals(phone, client.phone) && passportId.equals(client.passportId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, patronymic, email, phone, passportId);
-    }
 }
