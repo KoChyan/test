@@ -16,7 +16,6 @@ public class PaymentScheduleService {
     @Autowired
     private PaymentScheduleRepo scheduleRepo;
 
-
     public void save(PaymentSchedule paymentSchedule) {
         scheduleRepo.save(paymentSchedule);
     }
@@ -38,29 +37,26 @@ public class PaymentScheduleService {
 
             //сумма гашения процента
             payment.setInterestRepaymentAmount(
-                    ServiceUtils.getValueOfInterestRepayment(i + 1, amountOfMonths, sum, credit.getInterestRate())
+                    ServiceUtils.getValueOfInterestRepayment(i, amountOfMonths, sum, credit.getPercentRate())
             );
 
             //сумма гашения тела основного кредита
             payment.setPrincipalRepaymentAmount(
-                    ServiceUtils.getValueOfPrincipalRepayment(sum, credit.getInterestRate(), amountOfMonths, i + 1)
+                    ServiceUtils.getValueOfPrincipalRepayment(i, amountOfMonths, sum, credit.getPercentRate())
             );
 
             //сумма платежа
             payment.setAmountOfPayment(
-                    ServiceUtils.getValueOfPayment(credit.getInterestRate(), sum, amountOfMonths)
+                    ServiceUtils.getValueOfPayment(credit.getPercentRate(), sum, amountOfMonths)
             );
 
             //связь от платежа к графику платежей
             payment.setPaymentSchedule(paymentSchedule);
 
-
             //добавление в график платежей полученного платежа
             paymentSchedule.addPayment(payment);
         }
-
         return paymentSchedule;
     }
-
 
 }

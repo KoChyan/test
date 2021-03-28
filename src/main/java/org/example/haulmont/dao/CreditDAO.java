@@ -22,7 +22,7 @@ public class CreditDAO {
     @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager em;
 
-    public List<Credit> findByFilter(BigDecimal limit, BigDecimal interestRate) {
+    public List<Credit> findByFilter(BigDecimal limit, BigDecimal percentRate) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Credit> criteria = cb.createQuery(Credit.class);
@@ -33,8 +33,8 @@ public class CreditDAO {
         if(limit != null) {
             predicate = cb.and(cb.ge(root.get("limit"), limit));
         }
-        if(interestRate != null){
-            predicate.getExpressions().add(cb.le(root.get("interestRate"), interestRate));
+        if(percentRate != null){
+            predicate.getExpressions().add(cb.le(root.get("percentRate"), percentRate));
         }
 
         criteria.where(predicate);
@@ -42,23 +42,4 @@ public class CreditDAO {
         return em.createQuery(criteria).getResultList();
     }
 
-
-    public boolean ifExists(Credit credit, Bank bank){
-
-        if(credit == null || bank == null)
-            return false;
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Credit> criteria = cb.createQuery(Credit.class);
-        Root<Credit> root = criteria.from(Credit.class);
-
-        criteria.where(cb.equal(root.get("Bank"), bank));
-
-        System.out.println(em.createQuery(criteria).getResultList());
-        //если не найдено кредита с таким банком
-       if(em.createQuery(criteria).getResultList().isEmpty())
-           return false;
-
-       return true;
-    }
 }

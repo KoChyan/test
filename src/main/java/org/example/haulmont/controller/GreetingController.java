@@ -21,12 +21,10 @@ public class GreetingController {
     @Autowired
     private CreditService creditService;
 
-
-
     @GetMapping("/")
     public String greeting(Model model) {
 
-        model.addAttribute("banks", bankService.findAll());
+        model.addAttribute("bank", bankService.getBank());
         model.addAttribute("clients", clientService.findAll());
         model.addAttribute("credits", creditService.findAll());
         return "greeting";

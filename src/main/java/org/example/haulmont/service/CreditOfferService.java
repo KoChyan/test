@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CreditOfferService {
@@ -21,23 +20,27 @@ public class CreditOfferService {
     @Autowired
     private PaymentScheduleService scheduleService;
 
-    public List<CreditOffer> createByFilter(BigDecimal sum, Integer amountOfMonths) {
-        List<Credit> credits;
+    public List<CreditOffer> getPossibleByFilter(BigDecimal sum, Integer amountOfMonths) {
+        if (sum == null || amountOfMonths == null)
+            return new ArrayList<>();
 
-        //все кредиты, кредитный лимит которых >= сумме, которую хочет получить клиент
-        credits = creditService.findAllByLimitFrom(sum);
+        //все кредиты, лимит которых >= сумме, которую хочет получить клиент
+        List<Credit> credits = creditService.findAllByLimitFrom(sum);
 
-        //кредиты, лимит которых выше, чем общая сумма выплат с учетом %
-        List<Credit> availableCredits = credits.stream()
-                .filter(c -> creditService.ifExists(c))
-                .collect(Collectors.toList());
+        //для кредитов, лимит которых >= общей сумме выплат с учетом %
+        List<Credit> availableCredits = new ArrayList<>(credits.size());
+
+        for (Credit c : credits) {
+            BigDecimal totalPayment = ServiceUtils.getTotalPayment(sum, c.getPercentRate(), amountOfMonths);
+
+            //если лимит кредита >= общей сумме платежа с  учетом процента
+            if (c.getLimit().compareTo(totalPayment) >= 0)
+                availableCredits.add(c);
+        }
 
         //список кредитных предложений
-        Set<CreditOffer> offers = new HashSet<>(amountOfMonths);
-
-
+        List<CreditOffer> offers = new ArrayList<>(amountOfMonths);
         for (Credit credit : availableCredits) {
-
             CreditOffer offer = new CreditOffer();
 
             offer.setCredit(credit);
@@ -46,9 +49,7 @@ public class CreditOfferService {
 
             offers.add(offer);
         }
-        System.out.println(offers);
-        return new ArrayList<>(offers);
+
+        return offers;
     }
-
 }
-

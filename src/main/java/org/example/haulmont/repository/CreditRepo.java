@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface CreditRepo extends JpaRepository<Credit, UUID> {
 
-    List<Credit> findAllByLimitGreaterThanEqual(BigDecimal sum);
+    List<Credit> findAllByLimitGreaterThanEqualOrderByPercentRate(BigDecimal sum);
 }

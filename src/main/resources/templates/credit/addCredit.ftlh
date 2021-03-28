@@ -5,7 +5,7 @@
             <label class="col-sm-3 col-form-label">Процентная ставка</label>
             <div class="col-sm-6 mb-2">
                 <input type="number" step="0.01" min="0" max="100" class="form-control" placeholder="11.3"
-                       name="interestRate"/>
+                       name="percentRate"/>
             </div>
         </div>
 

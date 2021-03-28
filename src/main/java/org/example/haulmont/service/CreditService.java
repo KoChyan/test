@@ -1,7 +1,6 @@
 package org.example.haulmont.service;
 
 import org.example.haulmont.dao.CreditDAO;
-import org.example.haulmont.domain.Bank;
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.repository.CreditRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class CreditService {
     @Autowired
     private CreditDAO creditDAO;
 
-
     public void addCredit(Credit credit) {
 
         credit.setLimit(
@@ -32,9 +30,9 @@ public class CreditService {
                         .toString())
         );
 
-        credit.setInterestRate(
+        credit.setPercentRate(
                 new BigDecimal(credit
-                        .getInterestRate().setScale(6, RoundingMode.HALF_UP)
+                        .getPercentRate().setScale(6, RoundingMode.HALF_UP)
                         .toString())
         );
 
@@ -52,10 +50,6 @@ public class CreditService {
     }
 
     public List<Credit> findAllByLimitFrom(BigDecimal sum) {
-        return creditRepo.findAllByLimitGreaterThanEqual(sum);
-    }
-
-    public boolean ifExists(Credit credit){
-        return creditDAO.ifExists(credit, bankService.getBank());
+        return creditRepo.findAllByLimitGreaterThanEqualOrderByPercentRate(sum);
     }
 }

@@ -20,15 +20,15 @@ public class Credit {
     @Column(name = "limit")
     private BigDecimal limit;
 
-    @Column(name = "interest_rate")
-    private BigDecimal interestRate;
+    @Column(name = "percent_rate")
+    private BigDecimal percentRate;
 
     public Credit() {
     }
 
-    public Credit(BigDecimal interestRate, BigDecimal limit) {
+    public Credit(BigDecimal percentRate, BigDecimal limit) {
         this.limit = limit;
-        this.interestRate = interestRate;
+        this.percentRate = percentRate;
     }
 
     public UUID getId() {
@@ -47,12 +47,12 @@ public class Credit {
         this.limit = limit;
     }
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
+    public BigDecimal getPercentRate() {
+        return percentRate;
     }
 
-    public void setInterestRate(BigDecimal interestRate) {
-        this.interestRate = interestRate;
+    public void setPercentRate(BigDecimal percentRate) {
+        this.percentRate = percentRate;
     }
 
     public Bank getBank() {
@@ -67,7 +67,7 @@ public class Credit {
     public String toString() {
         return "Credit{" +
                 "limit=" + limit +
-                ", interestRate=" + interestRate +
+                ", percentRate=" + percentRate +
                 '}';
     }
 

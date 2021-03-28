@@ -23,10 +23,10 @@ public class CreditController {
     @GetMapping()
     public String creditList(
             Model model,
-            @RequestParam(name = "interestRate", required = false, defaultValue = "") BigDecimal interestRate,
+            @RequestParam(name = "percentRate", required = false, defaultValue = "") BigDecimal percentRate,
             @RequestParam(name = "limit", required = false, defaultValue = "") BigDecimal limit
     ) {
-        model.addAttribute("credits", creditService.findByFilter(limit, interestRate));
+        model.addAttribute("credits", creditService.findByFilter(limit, percentRate));
         return "credit/credits";
     }
 

@@ -36,7 +36,7 @@
                         <div class="row my-2">
                             <div class="col-sm-4">Процентная ставка</div>
                             <div class="col-sm">
-                                ${credit.getInterestRate()?ifExists}
+                                ${credit.getPercentRate()?ifExists}
                             </div>
                         </div>
                         <div class="row my-2">

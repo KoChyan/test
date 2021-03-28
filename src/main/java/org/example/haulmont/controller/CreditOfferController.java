@@ -1,5 +1,6 @@
 package org.example.haulmont.controller;
 
+import com.fasterxml.jackson.core.JsonToken;
 import org.example.haulmont.service.CreditOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,9 @@ public class CreditOfferController {
     public String selectParam(
             Model model,
             @RequestParam(name = "sum", required = false, defaultValue = "") BigDecimal sum,
-            @RequestParam(name = "time", required = false, defaultValue = "") Integer amountOfMonths
+            @RequestParam(name = "amountOfMonths", required = false, defaultValue = "") Integer amountOfMonths
             ){
-        model.addAttribute("creditOffers", offerService.createByFilter(sum, amountOfMonths));
+        model.addAttribute("creditOffers", offerService.getPossibleByFilter(sum, amountOfMonths));
         return "creditOffer/selectCreditOffer";
     }
 
