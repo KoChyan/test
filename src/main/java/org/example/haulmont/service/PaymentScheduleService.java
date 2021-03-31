@@ -45,7 +45,7 @@ public class PaymentScheduleService {
             payment.setDate(java.sql.Date.valueOf(date.plusMonths(i)));
 
             //сумма гашения процента
-            payment.setInterestRepaymentAmount(ServiceUtils
+            payment.setPercentRepaymentAmount(ServiceUtils
                     .getValueOfInterestRepayment(i, amountOfMonths, sum, credit.getPercentRate())
                     .setScale(2, RoundingMode.HALF_UP)
             );

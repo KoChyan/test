@@ -1,11 +1,13 @@
 package org.example.haulmont.domain;
 
 
+import org.hibernate.validator.constraints.pl.NIP;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -25,20 +27,18 @@ public class Credit {
     @NotNull(message = "Необходимо ввести число")
     @DecimalMin(value = "1000", message = "Число не должно быть меньше 1000")
     @DecimalMax(value = "99999999", message = "Число не должно превышать 99999999")
+    @Digits(integer = 8, fraction = 0, message = "Недопустимое значение")
     @Column(name = "limit")
     private BigDecimal limit;
 
+    @NotNull(message = "Необходимо ввести число")
     @DecimalMin(value = "0.1", message = "Число не должно быть меньше 0.1")
-    @DecimalMax(value = "99", message = "Число не должно превышать 99")
+    @DecimalMax(value = "99.9", message = "Число не должно превышать 99.9")
+    @Digits(integer = 2, fraction = 2, message = "Недопустимое значение")
     @Column(name = "percent_rate")
     private BigDecimal percentRate;
 
     public Credit() {
-    }
-
-    public Credit(BigDecimal percentRate, BigDecimal limit) {
-        this.limit = limit;
-        this.percentRate = percentRate;
     }
 
     public UUID getId() {

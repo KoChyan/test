@@ -1,7 +1,6 @@
 package org.example.haulmont.service;
 
 import org.example.haulmont.dao.CreditDAO;
-import org.example.haulmont.domain.Client;
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.domain.CreditOffer;
 import org.example.haulmont.repository.CreditRepo;
@@ -94,16 +93,17 @@ public class CreditService {
         return credit;
     }
 
-    public void update(Credit credit, BigDecimal percentRate, BigDecimal limit) {
-        if (credit == null || percentRate == null || limit == null)
+    public void update(Credit credit, Credit creditFromForm) {
+        if (creditFromForm == null)
             return;
-        creditDAO.update(credit, percentRate, limit);
+
+        creditDAO.update(credit, creditFromForm.getPercentRate(), creditFromForm.getLimit());
     }
 
     public void remove(Credit credit) {
         bankService.removeCredit(credit);
 
-        for(CreditOffer offer : offerService.findByCredit(credit)){
+        for (CreditOffer offer : offerService.findByCredit(credit)) {
             offer.setCredit(null);
         }
 

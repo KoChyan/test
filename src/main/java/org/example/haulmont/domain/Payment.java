@@ -26,8 +26,8 @@ public class Payment {
     private BigDecimal principalRepaymentAmount;
 
     //сумма гашения процентов
-    @Column(name = "interest_repayment_amount")
-    private BigDecimal interestRepaymentAmount;
+    @Column(name = "percent_repayment_amount")
+    private BigDecimal percentRepaymentAmount;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_schedule_id")
@@ -35,13 +35,6 @@ public class Payment {
 
 
     public Payment() {
-    }
-
-    public Payment(Date date, BigDecimal amountOfPayment, BigDecimal principalRepaymentAmount, BigDecimal interestRepaymentAmount) {
-        this.date = date;
-        this.amountOfPayment = amountOfPayment;
-        this.principalRepaymentAmount = principalRepaymentAmount;
-        this.interestRepaymentAmount = interestRepaymentAmount;
     }
 
     public UUID getId() {
@@ -76,12 +69,12 @@ public class Payment {
         this.principalRepaymentAmount = principalRepaymentAmount;
     }
 
-    public BigDecimal getInterestRepaymentAmount() {
-        return interestRepaymentAmount;
+    public BigDecimal getPercentRepaymentAmount() {
+        return percentRepaymentAmount;
     }
 
-    public void setInterestRepaymentAmount(BigDecimal interestRepaymentAmount) {
-        this.interestRepaymentAmount = interestRepaymentAmount;
+    public void setPercentRepaymentAmount(BigDecimal percentRepaymentAmount) {
+        this.percentRepaymentAmount = percentRepaymentAmount;
     }
 
     public void setPaymentSchedule(PaymentSchedule paymentSchedule){
@@ -98,7 +91,7 @@ public class Payment {
                 "date=" + date +
                 ", amountOfPayment=" + amountOfPayment +
                 ", principalRepaymentAmount=" + principalRepaymentAmount +
-                ", interestRepaymentAmount=" + interestRepaymentAmount +
+                ", interestRepaymentAmount=" + percentRepaymentAmount +
                 '}';
     }
 

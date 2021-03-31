@@ -56,15 +56,6 @@ public class Client {
     public Client() {
     }
 
-    public Client(String name, String surname, String patronymic, String email, String phone, String passportNumber) {
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.email = email;
-        this.phone = phone;
-        this.passportNumber = passportNumber;
-    }
-
     public UUID getId() {
         return id;
     }

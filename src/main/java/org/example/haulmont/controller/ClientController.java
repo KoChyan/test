@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/client")
@@ -41,7 +39,7 @@ public class ClientController {
     public String updateProfile(
             Model model,
             @PathVariable(name = "id") Client client
-    ){
+    ) {
         model.addAttribute("client", clientService.findById(client.getId()));
 
         return "client/updateClient";
@@ -53,25 +51,24 @@ public class ClientController {
             @Valid Client clientFromForm,
             BindingResult bindingResult,
             Model model
-    ){
-        if(bindingResult.hasErrors()) {
+    ) {
+        if (bindingResult.hasErrors()) {
             Map<String, List<String>> errors = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
             model.addAttribute("client", client);
             return "client/addClient";
+
+        } else {
+
+            clientService.updateClient(client, clientFromForm);
+            return "redirect:/client";
         }
-
-
-        clientService.updateClient(client, clientFromForm);
-
-        return "redirect:/client";
     }
 
 
-
     @PostMapping("/delete/{id}")
-    public String deleteClient(@PathVariable(value = "id") Client client){
+    public String deleteClient(@PathVariable(value = "id") Client client) {
 
         clientService.remove(client);
         return "redirect:/client";
@@ -89,18 +86,17 @@ public class ClientController {
             BindingResult bindingResult,
             Model model
     ) {
-
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             Map<String, List<String>> errors = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
             model.addAttribute("client", client);
             return "client/addClient";
-        }else{
+
+        } else {
+
             clientService.addClient(client);
             return "redirect:/client";
         }
-
-
     }
 }

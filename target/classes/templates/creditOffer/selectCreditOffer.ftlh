@@ -107,7 +107,7 @@
                         <div class="row text-center">
                             <div class="col-sm">${payment.getDate()?ifExists}</div>
                             <div class="col-sm">${payment.getAmountOfPayment()?ifExists}</div>
-                            <div class="col-sm">${payment.getInterestRepaymentAmount()?ifExists}</div>
+                            <div class="col-sm">${payment.getPercentRepaymentAmount()?ifExists}</div>
                             <div class="col-sm">${payment.getPrincipalRepaymentAmount()?ifExists}</div>
                         </div>
                     </#list>
