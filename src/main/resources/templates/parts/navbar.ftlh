@@ -29,7 +29,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="/credit-offer/select" class="nav-link">Оформить кредит</a>
+                    <a href="/credit-offer" class="nav-link">Список оформленных кредитов</a>
                 </li>
 
             </ul>

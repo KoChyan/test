@@ -10,7 +10,6 @@ public class ServiceUtils {
         BigDecimal result;
 
         BigDecimal monthPercent = getPercentRatePerMonth(percent);
-        sum = sum.setScale(24, RoundingMode.HALF_UP);
 
         //числитель, знаменатель
         BigDecimal numerator;
@@ -75,10 +74,12 @@ public class ServiceUtils {
         // уже оплачено
         // payment * month number
         BigDecimal alreadyPaid = getValueOfPayment(getPercentRatePerMonth(percent), sum, amountOfMonths)
-                .multiply(new BigDecimal(currentMonth)).setScale(24, RoundingMode.HALF_UP);
+                .multiply(new BigDecimal(currentMonth))
+                .setScale(24, RoundingMode.HALF_UP);
 
         // (sum - already paid) * month percent
-        result = sum.subtract(alreadyPaid).multiply(getPercentRatePerMonth(percent)).setScale(24, RoundingMode.HALF_UP);
+        result = sum.subtract(alreadyPaid).multiply(getPercentRatePerMonth(percent))
+                .setScale(24, RoundingMode.HALF_UP);
 
         return result;
     }

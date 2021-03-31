@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "credit")
+@Table(name = "CREDIT")
 public class Credit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

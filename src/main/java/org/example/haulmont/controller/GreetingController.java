@@ -1,5 +1,6 @@
 package org.example.haulmont.controller;
 
+import org.example.haulmont.dao.BankDAO;
 import org.example.haulmont.domain.Bank;
 import org.example.haulmont.service.BankService;
 import org.example.haulmont.service.ClientService;
@@ -21,12 +22,14 @@ public class GreetingController {
     @Autowired
     private CreditService creditService;
 
+
+
     @GetMapping("/")
     public String greeting(Model model) {
 
         model.addAttribute("bank", bankService.getBank());
-        model.addAttribute("clients", clientService.findAll());
-        model.addAttribute("credits", creditService.findAll());
+        model.addAttribute("clients", bankService.getClients(bankService.getBank().getId()));
+        model.addAttribute("credits", bankService.getCredits(bankService.getBank().getId()));
         return "greeting";
     }
 }

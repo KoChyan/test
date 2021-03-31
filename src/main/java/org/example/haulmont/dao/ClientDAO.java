@@ -1,7 +1,9 @@
 package org.example.haulmont.dao;
 
+import org.example.haulmont.domain.Bank;
 import org.example.haulmont.domain.Client;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,12 +16,13 @@ import java.util.List;
 @Component
 public class ClientDAO {
 
-    @PersistenceContext(unitName = "entityManagerFactory")
+    @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     public List<Client> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportId) {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
+
         CriteriaQuery<Client> criteria = cb.createQuery(Client.class);
         Root<Client> root = criteria.from(Client.class);
 
@@ -48,4 +51,24 @@ public class ClientDAO {
 
         return em.createQuery(criteria).getResultList();
     }
+
+    @Transactional
+    public void update(Client client, String surname, String name, String patronymic, String email, String phone, String passportNumber) {
+
+        String stringQuery = "UPDATE Client as c SET " +
+                "c.surname = :surname, c.name = :name, c.patronymic = :patronymic, " +
+                "c.email = :email, c.phone = :phone, c.passportNumber = :passportNumber " +
+                "WHERE c.id = :id";
+
+        em.createQuery(stringQuery)
+                .setParameter("surname", surname)
+                .setParameter("name", name)
+                .setParameter("patronymic", patronymic)
+                .setParameter("email", email)
+                .setParameter("phone", phone)
+                .setParameter("passportNumber", passportNumber)
+                .setParameter("id", client.getId())
+                .executeUpdate();
+    }
+
 }

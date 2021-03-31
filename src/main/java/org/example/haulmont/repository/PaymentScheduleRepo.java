@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface PaymentScheduleRepo extends JpaRepository<PaymentSchedule, UUID> {
-
+    PaymentSchedule findByCreditOfferId(UUID id);
 }

@@ -3,26 +3,23 @@ package org.example.haulmont.domain;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "paymentSchedule")
+@Table(name = "PAYMENT_SCHEDULE")
 public class PaymentSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToMany(mappedBy = "paymentSchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "paymentSchedule", fetch = FetchType.LAZY)
     private List<Payment> payments = new ArrayList<>();
 
-    @OneToOne(mappedBy = "paymentSchedule")
+    @OneToOne(mappedBy = "paymentSchedule", fetch = FetchType.LAZY)
     private CreditOffer creditOffer;
 
     public PaymentSchedule() {
-    }
-
-    public PaymentSchedule(List<Payment> payments) {
-        this.payments = payments;
     }
 
     public UUID getId() {
@@ -53,10 +50,34 @@ public class PaymentSchedule {
         }
     }
 
+    public void removePayment(Payment payment){
+        if(payment != null){
+            payments.remove(payment);
+            payment.setPaymentSchedule(null);
+        }
+    }
+
+    public Integer getAmountOfPayments(){
+        return this.payments.size();
+    }
+
     @Override
     public String toString() {
         return "PaymentSchedule{" +
                 "payments=" + payments +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentSchedule that = (PaymentSchedule) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

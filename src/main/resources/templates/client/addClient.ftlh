@@ -35,7 +35,7 @@
         <div class="form-group row my-3">
             <label class="col-sm-2 col-form-label">Номер паспорта</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="1234 567890" name="passportId"/>
+                <input type="text" class="form-control" placeholder="1234 567890" name="passportNumber"/>
             </div>
         </div>
 

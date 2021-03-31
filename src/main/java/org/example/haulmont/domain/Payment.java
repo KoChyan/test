@@ -3,10 +3,11 @@ package org.example.haulmont.domain;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "payment")
+@Table(name = "PAYMENT")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +29,7 @@ public class Payment {
     @Column(name = "interest_repayment_amount")
     private BigDecimal interestRepaymentAmount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_schedule_id")
     private PaymentSchedule paymentSchedule;
 
@@ -87,6 +88,10 @@ public class Payment {
         this.paymentSchedule = paymentSchedule;
     }
 
+    public PaymentSchedule getPaymentSchedule() {
+        return paymentSchedule;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
@@ -95,5 +100,18 @@ public class Payment {
                 ", principalRepaymentAmount=" + principalRepaymentAmount +
                 ", interestRepaymentAmount=" + interestRepaymentAmount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment = (Payment) o;
+        return id.equals(payment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

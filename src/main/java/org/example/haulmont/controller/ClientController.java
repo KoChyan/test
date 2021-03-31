@@ -5,10 +5,14 @@ import org.example.haulmont.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/client")
@@ -25,12 +29,48 @@ public class ClientController {
             @RequestParam(name = "patronymic", required = false, defaultValue = "") String patronymic,
             @RequestParam(name = "email", required = false, defaultValue = "") String email,
             @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
-            @RequestParam(name = "passportId", required = false, defaultValue = "") String passportId
+            @RequestParam(name = "passportNumber", required = false, defaultValue = "") String passportNumber
     ) {
-        Iterable<Client> clients = clientService.findByFilter(surname, name, patronymic, email, phone, passportId);
+        List<Client> clients = clientService.findByFilter(surname, name, patronymic, email, phone, passportNumber);
+
         model.addAttribute("clients", clients);
         return "client/clients";
     }
+
+    @GetMapping("/update/{id}")
+    public String updateProfile(
+            Model model,
+            @PathVariable(name = "id") Client client
+    ){
+        model.addAttribute("client", clientService.findById(client.getId()));
+
+        return "client/updateClient";
+    }
+
+    @PostMapping("/update/{id}")
+    public String saveChanges(
+            @PathVariable(value = "id") Client client,
+            @RequestParam(name = "surname", required = false, defaultValue = "") String surname,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "patronymic", required = false, defaultValue = "") String patronymic,
+            @RequestParam(name = "email", required = false, defaultValue = "") String email,
+            @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
+            @RequestParam(name = "passportId", required = false, defaultValue = "") String passportId
+    ){
+        clientService.updateClient(client, surname, name, patronymic, email, phone, passportId);
+
+        return "redirect:/client";
+    }
+
+
+
+    @PostMapping("/delete/{id}")
+    public String deleteClient(@PathVariable(value = "id") Client client){
+
+        clientService.remove(client);
+        return "redirect:/client";
+    }
+
 
     @GetMapping("/add")
     public String fillClientData() {
@@ -38,9 +78,19 @@ public class ClientController {
     }
 
     @PostMapping("/add")
-    public String addClient(Client client) {
+    public String addClient(
+            @Valid Client client,
+            BindingResult bindingResult,
+            Model model
+    ) {
 
-        clientService.addClient(client);
+        if(bindingResult.hasErrors()){
+
+
+        }else{
+            clientService.addClient(client);
+        }
+
         return "redirect:/client";
     }
 }

@@ -1,18 +1,21 @@
 package org.example.haulmont.service;
 
+import org.example.haulmont.domain.Client;
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.domain.CreditOffer;
+import org.example.haulmont.domain.PaymentSchedule;
+import org.example.haulmont.repository.CreditOfferRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CreditOfferService {
+
+    @Autowired
+    private CreditOfferRepo offerRepo;
 
     @Autowired
     private CreditService creditService;
@@ -20,36 +23,77 @@ public class CreditOfferService {
     @Autowired
     private PaymentScheduleService scheduleService;
 
-    public List<CreditOffer> getPossibleByFilter(BigDecimal sum, Integer amountOfMonths) {
-        if (sum == null || amountOfMonths == null)
-            return new ArrayList<>();
+    public List<CreditOffer> findByClient(Client client) {
+        return offerRepo.findByClientId(client.getId());
+    }
+
+    public CreditOffer createOffer(BigDecimal sum, Integer amountOfMonths, Client client) {
+
+        if (sum == null || amountOfMonths == null || client == null)
+            return null;
 
         //все кредиты, лимит которых >= сумме, которую хочет получить клиент
         List<Credit> credits = creditService.findAllByLimitFrom(sum);
 
-        //для кредитов, лимит которых >= общей сумме выплат с учетом %
-        List<Credit> availableCredits = new ArrayList<>(credits.size());
+        //оставим только те, кредитный лимит которых выше чем общая сумма выплат с учетом %
+        List<Credit> availableCredits = creditService.filterByLimitGreaterThanTotalPayment(credits, sum, amountOfMonths);
 
-        for (Credit c : credits) {
-            BigDecimal totalPayment = ServiceUtils.getTotalPayment(sum, c.getPercentRate(), amountOfMonths);
+        //из полученных выберем тот кредит, кредитная ставка которого ниже всех
+        Credit credit = creditService.findWithLowestPercent(availableCredits);
 
-            //если лимит кредита >= общей сумме платежа с  учетом процента
-            if (c.getLimit().compareTo(totalPayment) >= 0)
-                availableCredits.add(c);
-        }
+        //если подходящего кредита нет в БД
+        if (credit == null)
+            return null;
 
-        //список кредитных предложений
-        List<CreditOffer> offers = new ArrayList<>(amountOfMonths);
-        for (Credit credit : availableCredits) {
-            CreditOffer offer = new CreditOffer();
+        CreditOffer offer = new CreditOffer();
 
-            offer.setCredit(credit);
-            offer.setCreditAmount(sum);
-            offer.setPaymentSchedule(scheduleService.createPaymentSchedule(amountOfMonths, credit, sum));
+        offer.setClient(client);
+        offer.setCredit(credit);
+        offer.setCreditAmount(sum);
+        offer.setPaymentSchedule(scheduleService.createPaymentSchedule(amountOfMonths, credit, sum));
+        offer.setOverpayment(ServiceUtils.getOverPayment(sum, credit.getPercentRate(), amountOfMonths));
 
-            offers.add(offer);
-        }
+        return offer;
+    }
 
-        return offers;
+    public List<CreditOffer> findAll() {
+        return offerRepo.findAll();
+    }
+
+    public void save(BigDecimal sum, Integer amountOfMonths, Client client) {
+        CreditOffer offer = createOffer(sum, amountOfMonths, client);
+
+        //добавление графика платежей в БД
+        scheduleService.save(offer.getPaymentSchedule());
+
+        //добавление кредитного предложения в БД
+        offerRepo.save(offer);
+    }
+
+    public void save(CreditOffer offer) {
+
+        //добавление графика платежей в БД
+        scheduleService.save(offer.getPaymentSchedule());
+
+        //добавление кредитного предложения в БД
+        offerRepo.save(offer);
+    }
+
+    public void remove(CreditOffer offer) {
+        PaymentSchedule schedule = scheduleService.findByOffer(offer);
+
+        //offer.setCredit(null);
+        //offer.setCredit(null);
+        //offer.setPaymentSchedule(null);
+
+        scheduleService.remove(schedule);
+
+        offerRepo.delete(offer);
+
+
+    }
+
+    public List<CreditOffer> findByCredit(Credit credit) {
+        return offerRepo.findByCreditId(credit.getId());
     }
 }

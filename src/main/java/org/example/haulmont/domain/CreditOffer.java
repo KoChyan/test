@@ -2,17 +2,17 @@ package org.example.haulmont.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "creditOffer")
+@Table(name = "CREDIT_OFFER")
 public class CreditOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 
@@ -20,24 +20,19 @@ public class CreditOffer {
     @JoinColumn(name = "credit_id")
     private Credit credit;
 
-    //сумма кредита
+    @Column(name = "overpayment")
+    private BigDecimal overpayment;
+
     @Column(name = "credit_amount")
     private BigDecimal creditAmount;
 
-    //график платежей
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name = "payment_schedule_id")
     private PaymentSchedule paymentSchedule;
 
 
     public CreditOffer() {
-    }
-
-    public CreditOffer(Client client, Credit credit, BigDecimal creditAmount, PaymentSchedule paymentSchedules) {
-        this.client = client;
-        this.credit = credit;
-        this.creditAmount = creditAmount;
-        this.paymentSchedule = paymentSchedules;
     }
 
     public UUID getId() {
@@ -80,6 +75,14 @@ public class CreditOffer {
         this.paymentSchedule = paymentSchedule;
     }
 
+    public BigDecimal getOverpayment() {
+        return overpayment;
+    }
+
+    public void setOverpayment(BigDecimal overpayment) {
+        this.overpayment = overpayment;
+    }
+
     @Override
     public String toString() {
         return "CreditOffer{" +
@@ -87,6 +90,20 @@ public class CreditOffer {
                 ", credit=" + credit +
                 ", creditAmount=" + creditAmount +
                 ", paymentSchedule=" + paymentSchedule +
+                ", overPayment=" + overpayment +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditOffer that = (CreditOffer) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

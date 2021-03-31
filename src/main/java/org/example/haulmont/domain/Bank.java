@@ -1,12 +1,10 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "bank")
+@Table(name = "BANK")
 public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,13 +13,11 @@ public class Bank {
     @Column(name = "name")
     private String name;
 
-    //список клиентов банка
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Client> clients = new HashSet<>();
+    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+    private List<Client> clients = new ArrayList<>();
 
-    //список кредитов банка
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Credit> credits = new HashSet<>();
+    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+    private List<Credit> credits = new ArrayList<>();
 
 
     public Bank() {
@@ -35,27 +31,34 @@ public class Bank {
         this.id = id;
     }
 
-    public Set<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
-    public void setClients(Set<Client> clients) {
+    public void setClients(List<Client> clients) {
         if (clients != null)
             this.clients = clients;
     }
 
     public void addClient(Client client) {
         if (client != null) {
-            this.clients.add(client);
+            clients.add(client);
             client.setBank(this);
         }
     }
 
-    public Set<Credit> getCredits() {
+    public void removeClient(Client client){
+        if(client != null){
+            clients.remove(client);
+            client.setBank(null);
+        }
+    }
+
+    public List<Credit> getCredits() {
         return credits;
     }
 
-    public void setCredits(Set<Credit> credits) {
+    public void setCredits(List<Credit> credits) {
         if (credits != null)
             this.credits = credits;
     }
@@ -64,6 +67,13 @@ public class Bank {
         if (credit != null) {
             this.credits.add(credit);
             credit.setBank(this);
+        }
+    }
+
+    public void removeCredit(Credit credit){
+        if(credit != null){
+            credits.remove(credit);
+            credit.setBank(null);
         }
     }
 

@@ -1,7 +1,6 @@
 package org.example.haulmont.dao;
 
 
-import org.example.haulmont.domain.Bank;
 import org.example.haulmont.domain.Credit;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,21 +18,23 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CreditDAO {
 
-    @PersistenceContext(unitName = "entityManagerFactory")
+    @PersistenceContext
     private EntityManager em;
 
-    public List<Credit> findByFilter(BigDecimal limit, BigDecimal percentRate) {
 
+    public List<Credit> findByFilter(BigDecimal limit, BigDecimal percentRate) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
+
         CriteriaQuery<Credit> criteria = cb.createQuery(Credit.class);
         Root<Credit> root = criteria.from(Credit.class);
 
         Predicate predicate = cb.conjunction();
 
-        if(limit != null) {
+
+        if (limit != null) {
             predicate = cb.and(cb.ge(root.get("limit"), limit));
         }
-        if(percentRate != null){
+        if (percentRate != null) {
             predicate.getExpressions().add(cb.le(root.get("percentRate"), percentRate));
         }
 
@@ -42,4 +43,17 @@ public class CreditDAO {
         return em.createQuery(criteria).getResultList();
     }
 
+    @Transactional
+    public void update(Credit credit, BigDecimal percentRate, BigDecimal limit) {
+
+        String stringQuery = "UPDATE Credit as cr SET " +
+                "cr.percentRate = :percentRate, cr.limit = :limit " +
+                "WHERE cr.id = :id";
+
+        em.createQuery(stringQuery)
+                .setParameter("percentRate", percentRate)
+                .setParameter("limit", limit)
+                .setParameter("id", credit.getId())
+                .executeUpdate();
+    }
 }
