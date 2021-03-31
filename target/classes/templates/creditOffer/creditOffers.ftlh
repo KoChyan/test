@@ -60,7 +60,7 @@
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                 Редактировать
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" ">
+                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <li>
                                     <form method="post" action="/credit-offer/delete/${offer.getId()}">
                                         <button class="dropdown-item" type="submit">Удалить</button>

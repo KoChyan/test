@@ -1,7 +1,12 @@
 package org.example.haulmont.domain;
 
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,9 +22,14 @@ public class Credit {
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
+    @NotNull(message = "Необходимо ввести число")
+    @DecimalMin(value = "1000", message = "Число не должно быть меньше 1000")
+    @DecimalMax(value = "99999999", message = "Число не должно превышать 99999999")
     @Column(name = "limit")
     private BigDecimal limit;
 
+    @DecimalMin(value = "0.1", message = "Число не должно быть меньше 0.1")
+    @DecimalMax(value = "99", message = "Число не должно превышать 99")
     @Column(name = "percent_rate")
     private BigDecimal percentRate;
 

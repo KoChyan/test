@@ -50,14 +50,20 @@ public class ClientController {
     @PostMapping("/update/{id}")
     public String saveChanges(
             @PathVariable(value = "id") Client client,
-            @RequestParam(name = "surname", required = false, defaultValue = "") String surname,
-            @RequestParam(name = "name", required = false, defaultValue = "") String name,
-            @RequestParam(name = "patronymic", required = false, defaultValue = "") String patronymic,
-            @RequestParam(name = "email", required = false, defaultValue = "") String email,
-            @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
-            @RequestParam(name = "passportId", required = false, defaultValue = "") String passportId
+            @Valid Client clientFromForm,
+            BindingResult bindingResult,
+            Model model
     ){
-        clientService.updateClient(client, surname, name, patronymic, email, phone, passportId);
+        if(bindingResult.hasErrors()) {
+            Map<String, List<String>> errors = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errors);
+            model.addAttribute("client", client);
+            return "client/addClient";
+        }
+
+
+        clientService.updateClient(client, clientFromForm);
 
         return "redirect:/client";
     }
@@ -85,12 +91,16 @@ public class ClientController {
     ) {
 
         if(bindingResult.hasErrors()){
+            Map<String, List<String>> errors = ControllerUtils.getErrors(bindingResult);
 
-
+            model.mergeAttributes(errors);
+            model.addAttribute("client", client);
+            return "client/addClient";
         }else{
             clientService.addClient(client);
+            return "redirect:/client";
         }
 
-        return "redirect:/client";
+
     }
 }

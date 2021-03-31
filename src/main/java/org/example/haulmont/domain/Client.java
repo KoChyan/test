@@ -1,13 +1,13 @@
 package org.example.haulmont.domain;
 
-import com.sun.istack.NotNull;
+
+
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -39,12 +39,11 @@ public class Client {
 
     @Email(message = "Email некорректен")
     @NotBlank(message = "Пожалуйста, введите Email")
-    @Length(min = 6, max = 40, message = "Email должен быть от 6 до 40 символов длиной")
     @Column(name = "email")
     private String email;
 
     @NotBlank(message = "Пожалуйста, введите номер телефона")
-    @Length(min = 9, max = 9, message = "Введите 9 символов")
+    @Length(min = 10, max = 10, message = "Введите 10 символов")
     @Column(name = "phone")
     private String phone;
 

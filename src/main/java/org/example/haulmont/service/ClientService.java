@@ -39,10 +39,12 @@ public class ClientService {
         return clientDAO.findByFilter(surname, name, patronymic, email, phone, passportId);
     }
 
-    public void updateClient(Client client, String surname, String name, String patronymic, String email, String phone, String passportId) {
-        if (client == null || surname == null || name == null || patronymic == null || email == null || phone == null || passportId == null)
+    public void updateClient(Client client, Client clientFromForm) {
+        if(clientFromForm == null)
             return;
-        clientDAO.update(client, surname, name, patronymic, email, phone, passportId);
+
+        clientDAO.update(client, clientFromForm.getSurname(), clientFromForm.getName(), clientFromForm.getPatronymic(),
+                clientFromForm.getEmail(), clientFromForm.getPhone(), clientFromForm.getPassportNumber());
     }
 
     public Client findById(UUID id) {

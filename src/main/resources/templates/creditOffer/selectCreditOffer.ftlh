@@ -18,11 +18,6 @@
         </div>
     </form>
 
-    <#if askingParams?? && !offer??>
-        <h3>
-            <p class="fw-bold">${askingParams?ifExists}</p>
-        </h3>
-    </#if>
 
     <#if !askingParams?? && !offer??>
         <h3>

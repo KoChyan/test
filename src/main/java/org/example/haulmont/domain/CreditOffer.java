@@ -88,9 +88,9 @@ public class CreditOffer {
         return "CreditOffer{" +
                 "client=" + client +
                 ", credit=" + credit +
+                ", overpayment=" + overpayment +
                 ", creditAmount=" + creditAmount +
                 ", paymentSchedule=" + paymentSchedule +
-                ", overPayment=" + overpayment +
                 '}';
     }
 

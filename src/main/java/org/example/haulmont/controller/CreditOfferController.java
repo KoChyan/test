@@ -24,8 +24,6 @@ public class CreditOfferController {
             @RequestParam(name = "amountOfMonths", required = false, defaultValue = "") Integer amountOfMonths,
             @PathVariable(name = "id") Client client
     ) {
-        if (sum == null || amountOfMonths == null || client == null)
-            model.addAttribute("askingParams", "Необходимо ввести параметры для подбора кредитного предложения");
 
         model.addAttribute("offer", offerService.createOffer(sum, amountOfMonths, client));
         return "creditOffer/selectCreditOffer";
