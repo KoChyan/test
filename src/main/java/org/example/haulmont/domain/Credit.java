@@ -1,9 +1,6 @@
 package org.example.haulmont.domain;
 
 
-import org.hibernate.validator.constraints.pl.NIP;
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;

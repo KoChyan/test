@@ -1,0 +1,16 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+create table bank (id binary(255) not null, name varchar(255), primary key (id))
+create table client (id binary(255) not null, email varchar(255), name varchar(16), passport_number varchar(6), patronymic varchar(16), phone varchar(10), surname varchar(16), client_id binary(255), primary key (id))
+create table credit (id binary(255) not null, limit numeric(8,0) not null, percent_rate numeric(4,2) not null, bank_id binary(255), primary key (id))
+create table credit_offer (payment_schedule_id binary(255) not null, credit_amount numeric(19,2), overpayment numeric(19,2), client_id binary(255), credit_id binary(255), primary key (payment_schedule_id))
+create table payment (id binary(255) not null, amount_of_payment numeric(19,2), date timestamp, percent_repayment_amount numeric(19,2), principal_repayment_amount numeric(19,2), payment_schedule_id binary(255), primary key (id))
+create table payment_schedule (id binary(255) not null, primary key (id))
+alter table client add constraint FKgvypbuoibojj87oiqgocpoycu foreign key (client_id) references bank
+alter table credit add constraint FK1x1iaf0dsp6s1tjhdihhedgdk foreign key (bank_id) references bank
+alter table credit_offer add constraint FK9d0yha92vq76j1p83ftcymopy foreign key (client_id) references client
+alter table credit_offer add constraint FKnvc9mqgyq6ptbumj35edcgf4i foreign key (credit_id) references credit
+alter table credit_offer add constraint FKdgpc16jjpyltxelv6qh90vo3l foreign key (payment_schedule_id) references payment_schedule
+alter table payment add constraint FKfnbsk2x1dn1tvm3k4gt5g1s1m foreign key (payment_schedule_id) references payment_schedule

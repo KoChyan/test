@@ -1,5 +1,6 @@
 package org.example.haulmont.service;
 
+import org.example.haulmont.dao.CreditOfferDAO;
 import org.example.haulmont.domain.Client;
 import org.example.haulmont.domain.Credit;
 import org.example.haulmont.domain.CreditOffer;
@@ -22,6 +23,9 @@ public class CreditOfferService {
 
     @Autowired
     private PaymentScheduleService scheduleService;
+
+    @Autowired
+    private CreditOfferDAO offerDAO;
 
     public List<CreditOffer> findByClient(Client client) {
         return offerRepo.findByClientId(client.getId());
@@ -80,20 +84,18 @@ public class CreditOfferService {
     }
 
     public void remove(CreditOffer offer) {
+
         PaymentSchedule schedule = scheduleService.findByOffer(offer);
-
-        //offer.setCredit(null);
-        //offer.setCredit(null);
-        //offer.setPaymentSchedule(null);
-
         scheduleService.remove(schedule);
 
         offerRepo.delete(offer);
-
-
     }
 
     public List<CreditOffer> findByCredit(Credit credit) {
         return offerRepo.findByCreditId(credit.getId());
+    }
+
+    public List<CreditOffer> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportNumber) {
+            return offerDAO.findByFilter(surname, name, patronymic, email, phone, passportNumber);
     }
 }

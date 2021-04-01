@@ -1,13 +1,12 @@
 package org.example.haulmont.domain;
 
 
-
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -22,32 +21,34 @@ public class Client {
     @JoinColumn(name = "client_id")
     private Bank bank;
 
-    @NotBlank(message = "Пожалуйста, введите имя")
-    @Length(min = 2, max = 16, message = "Имя должно быть от 2 до 16 символов длиной")
+    @NotBlank(message = "Обязательное поле")
+    @Length(min = 2, max = 16, message = "Введите от 2 до 16 символов")
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "Пожалуйста, введите фамилию")
-    @Length(min = 2, max = 16, message = "Фамилия должна быть от 2 до 16 символов длиной")
+    @NotBlank(message = "Обязательное поле")
+    @Length(min = 2, max = 16, message = "Введите от 2 до 16 символов ")
     @Column(name = "surname")
     private String surname;
 
-    @NotBlank(message = "Пожалуйста, введите Отчество")
-    @Length(min = 2, max = 16, message = "Отчество должно быть от 2 до 16 символов длиной")
+    @NotBlank(message = "Обязательное поле")
+    @Length(min = 2, max = 16, message = "Введите от 2 до 16 символов")
     @Column(name = "patronymic")
     private String patronymic;
 
     @Email(message = "Email некорректен")
-    @NotBlank(message = "Пожалуйста, введите Email")
+    @NotBlank(message = "Обязательное поле")
     @Column(name = "email")
     private String email;
 
-    @NotBlank(message = "Пожалуйста, введите номер телефона")
+    @Pattern(regexp = "\\d{10}", message = "Номер телефона должен содержать 10 цифр")
+    @NotBlank(message = "Обязательное поле")
     @Length(min = 10, max = 10, message = "Введите 10 символов")
     @Column(name = "phone")
     private String phone;
 
-    @NotBlank(message = "Пожалуйста, введите номер паспорта")
+    @Pattern(regexp = "\\d{6}", message = "Номер паспорта должен содержать 6 цифр")
+    @NotBlank(message = "Обязательное поле")
     @Length(min = 6, max = 6, message = "Введите 6 символов")
     @Column(name = "passport_number")
     private String passportNumber;

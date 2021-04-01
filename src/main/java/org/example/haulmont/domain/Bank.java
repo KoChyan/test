@@ -10,9 +10,6 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
-
     @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
     private List<Client> clients = new ArrayList<>();
 
@@ -77,19 +74,10 @@ public class Bank {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
         return "Bank{" +
-                "name='" + name + '\'' +
-                ", clients=" + clients +
+                "clients=" + clients +
                 ", credits=" + credits +
                 '}';
     }

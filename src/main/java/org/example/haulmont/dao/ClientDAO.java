@@ -2,6 +2,7 @@ package org.example.haulmont.dao;
 
 import org.example.haulmont.domain.Bank;
 import org.example.haulmont.domain.Client;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +20,15 @@ public class ClientDAO {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
+    private CriteriaBuilder cb;
+
+
     @Transactional
     public List<Client> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportId) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-
+        Predicate predicate = cb.conjunction();
         CriteriaQuery<Client> criteria = cb.createQuery(Client.class);
         Root<Client> root = criteria.from(Client.class);
-
-        Predicate predicate = cb.conjunction();
 
         if (surname != null && !surname.trim().isEmpty()) {
             predicate = cb.and(cb.equal(root.get("surname"), surname));

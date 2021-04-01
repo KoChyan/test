@@ -19,7 +19,7 @@
         <div class="form-group row my-3">
             <label class="col-sm-3 col-form-label">Лимит по кредиту</label>
             <div class="col-sm-6 ">
-                <input type="number" class="form-control ${(limitError??)?string('is-invalid', '')}"
+                <input type="number" step="1" class="form-control ${(limitError??)?string('is-invalid', '')}"
                        placeholder="10000" name="limit"/>
                 <#if limitError??>
                     <#list limitError as lErr >

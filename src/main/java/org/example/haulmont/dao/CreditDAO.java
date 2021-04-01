@@ -2,6 +2,7 @@ package org.example.haulmont.dao;
 
 
 import org.example.haulmont.domain.Credit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +22,14 @@ public class CreditDAO {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
+    private CriteriaBuilder cb;
+
 
     public List<Credit> findByFilter(BigDecimal limit, BigDecimal percentRate) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-
         CriteriaQuery<Credit> criteria = cb.createQuery(Credit.class);
         Root<Credit> root = criteria.from(Credit.class);
-
         Predicate predicate = cb.conjunction();
-
 
         if (limit != null) {
             predicate = cb.and(cb.ge(root.get("limit"), limit));
@@ -39,7 +39,6 @@ public class CreditDAO {
         }
 
         criteria.where(predicate);
-
         return em.createQuery(criteria).getResultList();
     }
 

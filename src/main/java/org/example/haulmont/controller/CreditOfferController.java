@@ -35,15 +35,23 @@ public class CreditOfferController {
             @RequestParam(value = "amountOfMonths") Integer amountOfMonths,
             @RequestParam(value = "sum") BigDecimal sum
     ) {
-        offerService.save(sum, amountOfMonths, client);
 
+        offerService.save(sum, amountOfMonths, client);
         return "redirect:/credit-offer";
     }
 
     @GetMapping
-    public String offerList(Model model) {
+    public String offerList(
+            Model model,
+            @RequestParam(name = "surname", required = false, defaultValue = "") String surname,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "patronymic", required = false, defaultValue = "") String patronymic,
+            @RequestParam(name = "email", required = false, defaultValue = "") String email,
+            @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
+            @RequestParam(name = "passportNumber", required = false, defaultValue = "") String passportNumber
+    ) {
 
-        model.addAttribute("offers", offerService.findAll());
+        model.addAttribute("offers", offerService.findByFilter(surname, name, patronymic, email, phone, passportNumber));
         return "creditOffer/creditOffers";
     }
 

@@ -1,14 +1,13 @@
 package org.example.haulmont.dao;
 
+import org.example.haulmont.domain.Client;
 import org.example.haulmont.domain.CreditOffer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Component
@@ -17,36 +16,38 @@ public class CreditOfferDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public List<CreditOffer> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportId) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+    @Autowired
+    private CriteriaBuilder cb;
 
+
+    public List<CreditOffer> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportNumber) {
+        Predicate predicate = cb.conjunction();
         CriteriaQuery<CreditOffer> criteria = cb.createQuery(CreditOffer.class);
         Root<CreditOffer> root = criteria.from(CreditOffer.class);
+        Join<CreditOffer, Client> clientJoin = root.join("client");
 
-        Predicate predicate = cb.conjunction();
 
         if (surname != null && !surname.trim().isEmpty()) {
-            predicate = cb.and(cb.equal(root.get("surname"), surname));
+            predicate = cb.and(cb.equal(clientJoin.get("surname"), surname));
         }
         if (name != null && !name.trim().isEmpty()) {
-            predicate.getExpressions().add(cb.equal(root.get("name"), name));
+            predicate.getExpressions().add(cb.equal(clientJoin.get("name"), name));
         }
         if (patronymic != null && !patronymic.trim().isEmpty()) {
-            predicate.getExpressions().add(cb.equal(root.get("patronymic"), patronymic));
+            predicate.getExpressions().add(cb.equal(clientJoin.get("patronymic"), patronymic));
         }
         if (email != null && !email.trim().isEmpty()) {
-            predicate.getExpressions().add(cb.equal(root.get("email"), email));
+            predicate.getExpressions().add(cb.equal(clientJoin.get("email"), email));
         }
         if (phone != null && !phone.trim().isEmpty()) {
-            predicate.getExpressions().add(cb.equal(root.get("phone"), phone));
+            predicate.getExpressions().add(cb.equal(clientJoin.get("phone"), phone));
         }
-        if (passportId != null && !passportId.trim().isEmpty()) {
-            predicate.getExpressions().add(cb.equal(root.get("passportNumber"), passportId));
+        if (passportNumber != null && !passportNumber.trim().isEmpty()) {
+            predicate.getExpressions().add(cb.equal(clientJoin.get("passportNumber"), passportNumber));
         }
 
-        criteria.where(predicate);
+        criteria.select(root).where(predicate);
 
         return em.createQuery(criteria).getResultList();
-
     }
 }

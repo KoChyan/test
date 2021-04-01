@@ -13,4 +13,5 @@ public interface CreditOfferRepo extends JpaRepository<CreditOffer, UUID> {
     List<CreditOffer> findByClientId(UUID id);
 
     List<CreditOffer> findByCreditId(UUID id);
+
 }
