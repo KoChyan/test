@@ -21,16 +21,16 @@ public class Credit {
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
-    @NotNull(message = "Необходимо ввести число")
-    @DecimalMin(value = "1000", message = "Число не должно быть меньше 1000")
-    @DecimalMax(value = "99999999", message = "Число не должно превышать 99999999")
+    @NotNull(message = "Обязательное поле")
+    @DecimalMin(value = "1000", message = "Минимум 1000")
+    @DecimalMax(value = "99999999", message = "Максимум 99999999")
     @Digits(integer = 8, fraction = 0, message = "Недопустимое значение")
     @Column(name = "limit")
     private BigDecimal limit;
 
-    @NotNull(message = "Необходимо ввести число")
-    @DecimalMin(value = "0.1", message = "Число не должно быть меньше 0.1")
-    @DecimalMax(value = "99.9", message = "Число не должно превышать 99.9")
+    @NotNull(message = "Обязательное поле")
+    @DecimalMin(value = "0.1", message = "Минимум 0.1")
+    @DecimalMax(value = "99.9", message = "Максимум 99.9")
     @Digits(integer = 2, fraction = 2, message = "Недопустимое значение")
     @Column(name = "percent_rate")
     private BigDecimal percentRate;

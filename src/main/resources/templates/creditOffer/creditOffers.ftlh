@@ -15,9 +15,39 @@
                             </div>
                             <div class="col text-center">
                                 <p class="card-text">
-                                    ${offer.getClient().getSurname()}
-                                    ${offer.getClient().getName()}
-                                    ${offer.getClient().getPatronymic()}
+                                    ${offer.getClient().getSurname()?ifExists}
+                                    ${offer.getClient().getName()?ifExists}
+                                    ${offer.getClient().getPatronymic()?ifExists}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col-sm-4 text-center">
+                                <p class="fw-bold">Номер паспорта</p>
+                            </div>
+                            <div class="col text-center">
+                                <p class="card-text">
+                                    ${offer.getClient().getPassportNumber()?ifExists}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col-sm-4 text-center">
+                                <p class="fw-bold">Email</p>
+                            </div>
+                            <div class="col text-center">
+                                <p class="card-text">
+                                    ${offer.getClient().getEmail()?ifExists}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col-sm-4 text-center">
+                                <p class="fw-bold">Номер телефона</p>
+                            </div>
+                            <div class="col text-center">
+                                <p class="card-text">
+                                    ${offer.getClient().getPhone()?ifExists}
                                 </p>
                             </div>
                         </div>
@@ -28,7 +58,7 @@
                                 <p class="fw-bold">Сумма кредита</p>
                             </div>
                             <div class="col text-center">
-                                <p class="card-text">${offer.getCreditAmount()}</p>
+                                <p class="card-text">${offer.getCreditAmount()?ifExists}</p>
                             </div>
                         </div>
                         <div class="row my-2">
@@ -36,7 +66,7 @@
                                 <p class="fw-bold">Количество платежей</p>
                             </div>
                             <div class="col text-center">
-                                <p class="card-text">${offer.getPaymentSchedule().getAmountOfPayments()}</p>
+                                <p class="card-text">${offer.getPaymentSchedule().getAmountOfPayments()?ifExists}</p>
                             </div>
                         </div>
                         <div class="row my-2">
@@ -44,7 +74,7 @@
                                 <p class="fw-bold">Переплата</p>
                             </div>
                             <div class="col text-center">
-                                <p class="card-text">${offer.getOverpayment()}</p>
+                                <p class="card-text">${offer.getOverpayment()?ifExists}</p>
                             </div>
                         </div>
                     </div>
@@ -52,7 +82,7 @@
                         <div class="btn-group" role="group" style="width: 100%">
                             <button type="button" class="btn btn-primary"
                                     data-bs-toggle="collapse"
-                                    data-bs-target="#paymentSchedule${offer.getPaymentSchedule().getId()}"
+                                    data-bs-target="#paymentSchedule${offer.getPaymentSchedule().getId()?ifExists}"
                                     aria-expanded="false" aria-controls="collapseExample">
                                 Показать график платежей
                             </button>
@@ -76,8 +106,8 @@
                         </div>
                         <#list offer.getPaymentSchedule().getPayments() as payment>
                             <div class="row text-center">
-                                <div class="col-sm">${payment.getDate()?date}</div>
-                                <div class="col-sm">${payment.getAmountOfPayment()}</div>
+                                <div class="col-sm">${payment.getDate()?ifExists?date}</div>
+                                <div class="col-sm">${payment.getAmountOfPayment()?ifExists}</div>
                             </div>
                         </#list>
                     </div>

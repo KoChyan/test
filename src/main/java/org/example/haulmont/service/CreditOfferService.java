@@ -32,7 +32,6 @@ public class CreditOfferService {
     }
 
     public CreditOffer createOffer(BigDecimal sum, Integer amountOfMonths, Client client) {
-
         if (sum == null || amountOfMonths == null || client == null)
             return null;
 
@@ -96,6 +95,6 @@ public class CreditOfferService {
     }
 
     public List<CreditOffer> findByFilter(String surname, String name, String patronymic, String email, String phone, String passportNumber) {
-            return offerDAO.findByFilter(surname, name, patronymic, email, phone, passportNumber);
+        return offerDAO.findByFilter(surname, name, patronymic, email, phone, passportNumber);
     }
 }

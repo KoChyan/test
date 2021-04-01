@@ -1,5 +1,4 @@
 <#macro filterByClientFields path>
-
     <form method="get" action="${path}">
         <p>
             <button class="btn btn-primary mt-2 mb-5" type="button" data-bs-toggle="collapse" data-bs-target="#filter"
@@ -9,9 +8,9 @@
         </p>
         <div class="collapse my-4" id="filter">
             <div class="row mb-3">
-                <label class="col-form-label col-sm-2">Фамилия</label>
+                <label class="col-form-label col-sm-2 ">Фамилия</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" placeholder="Иванов" name="surname">
+                    <input type="text" class="form-control " placeholder="Иванов" name="surname">
                 </div>
                 <label class="col-form-label col-sm-2">Email</label>
                 <div class="col-sm-5">
@@ -43,5 +42,4 @@
             <button class="btn btn-primary my-4">Найти</button>
         </div>
     </form>
-
 </#macro>

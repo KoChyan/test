@@ -21,7 +21,7 @@ public class ServiceUtils {
                 .setScale(24, RoundingMode.HALF_UP);
 
         numerator = monthPercent.multiply(multiplayer)
-                .setScale(48, RoundingMode.HALF_UP);
+                .setScale(24, RoundingMode.HALF_UP);
 
         denominator = multiplayer.subtract(new BigDecimal("1"))
                 .setScale(24, RoundingMode.HALF_UP);
@@ -74,8 +74,7 @@ public class ServiceUtils {
         // уже оплачено
         // payment * month number
         BigDecimal alreadyPaid = getValueOfPayment(getPercentRatePerMonth(percent), sum, amountOfMonths)
-                .multiply(new BigDecimal(currentMonth))
-                .setScale(24, RoundingMode.HALF_UP);
+                .multiply(new BigDecimal(currentMonth));
 
         // (sum - already paid) * month percent
         result = sum.subtract(alreadyPaid).multiply(getPercentRatePerMonth(percent))

@@ -74,6 +74,14 @@ public class Bank {
         }
     }
 
+    public Integer getCountOfClients(){
+        return clients.size();
+    }
+
+    public Integer getCountOfCredits(){
+        return credits.size();
+    }
+
     @Override
     public String toString() {
         return "Bank{" +

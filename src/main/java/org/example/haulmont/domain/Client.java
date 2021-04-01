@@ -43,13 +43,11 @@ public class Client {
 
     @Pattern(regexp = "\\d{10}", message = "Номер телефона должен содержать 10 цифр")
     @NotBlank(message = "Обязательное поле")
-    @Length(min = 10, max = 10, message = "Введите 10 символов")
     @Column(name = "phone")
     private String phone;
 
     @Pattern(regexp = "\\d{6}", message = "Номер паспорта должен содержать 6 цифр")
     @NotBlank(message = "Обязательное поле")
-    @Length(min = 6, max = 6, message = "Введите 6 символов")
     @Column(name = "passport_number")
     private String passportNumber;
 

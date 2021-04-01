@@ -56,7 +56,7 @@ public class CreditOfferController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteCreditOffer(@PathVariable(value = "id") CreditOffer offer){
+    public String deleteCreditOffer(@PathVariable(value = "id") CreditOffer offer) {
 
         offerService.remove(offer);
         return "redirect:/credit-offer";
