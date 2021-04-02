@@ -3,6 +3,7 @@ package org.example.haulmont.controller;
 import org.example.haulmont.domain.Client;
 import org.example.haulmont.domain.CreditOffer;
 import org.example.haulmont.service.CreditOfferService;
+import org.example.haulmont.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ public class CreditOfferController {
 
     @Autowired
     private CreditOfferService offerService;
+    
 
     @GetMapping("/client/{id}/add-offer")
     public String selectParam(
