@@ -35,11 +35,13 @@ public class PaymentScheduleService {
         Payment payment;
 
         //дата первого платежа
-        LocalDate date = LocalDate.now().plusWeeks(1);
+        LocalDate date ;
 
         //количетсво платежей равно количеству месяцев
         for (int i = 0; i < amountOfMonths; i++) {
             payment = new Payment();
+            date = LocalDate.now().plusWeeks(1);
+
 
             //дата платежа
             payment.setDate(java.sql.Date.valueOf(date.plusMonths(i)));

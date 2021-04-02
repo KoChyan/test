@@ -106,7 +106,7 @@
                         </div>
                         <#list offer.getPaymentSchedule().getPayments() as payment>
                             <div class="row text-center">
-                                <div class="col-sm">${payment.getDate()?ifExists?date}</div>
+                                <div class="col-sm">${payment.getDate()?date}</div>
                                 <div class="col-sm">${payment.getAmountOfPayment()?ifExists}</div>
                             </div>
                         </#list>

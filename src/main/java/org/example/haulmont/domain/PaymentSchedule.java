@@ -35,7 +35,6 @@ public class PaymentSchedule {
     }
 
     public void setPayments(List<Payment> payments) {
-        if (payments != null)
             this.payments = payments;
     }
 
@@ -44,10 +43,8 @@ public class PaymentSchedule {
     }
 
     public void addPayment(Payment payment) {
-        if (payment != null) {
             this.payments.add(payment);
             payment.setPaymentSchedule(this);
-        }
     }
 
     public void removePayment(Payment payment){
