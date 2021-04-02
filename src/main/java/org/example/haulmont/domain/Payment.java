@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "PAYMENT")
-public class Payment {
+public class Payment implements Comparable<Payment>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -106,5 +106,15 @@ public class Payment {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Payment p) {
+        if(this.date.compareTo(p.date) == 1) {
+            return 1;
+        }else if(this.date.compareTo(p.date) == -1){
+            return -1;
+        }else
+            return 0;
     }
 }

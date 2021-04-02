@@ -1,10 +1,7 @@
 package org.example.haulmont.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "PAYMENT_SCHEDULE")
@@ -31,11 +28,15 @@ public class PaymentSchedule {
     }
 
     public List<Payment> getPayments() {
-        return payments;
+        if(this.payments == null)
+            return null;
+
+        Collections.sort(this.payments);
+        return this.payments;
     }
 
     public void setPayments(List<Payment> payments) {
-            this.payments = payments;
+        this.payments = payments;
     }
 
     public void setCreditOffer(CreditOffer creditOffer) {
@@ -43,18 +44,18 @@ public class PaymentSchedule {
     }
 
     public void addPayment(Payment payment) {
-            this.payments.add(payment);
-            payment.setPaymentSchedule(this);
+        this.payments.add(payment);
+        payment.setPaymentSchedule(this);
     }
 
-    public void removePayment(Payment payment){
-        if(payment != null){
+    public void removePayment(Payment payment) {
+        if (payment != null) {
             payments.remove(payment);
             payment.setPaymentSchedule(null);
         }
     }
 
-    public Integer getAmountOfPayments(){
+    public Integer getAmountOfPayments() {
         return this.payments.size();
     }
 
